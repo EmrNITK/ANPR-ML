@@ -60,41 +60,41 @@ For testing the ANPR system on sample images, run main.py file.
   python main.py
   ```
 
-### Installation
+## Installation
 
 To install these tools, follow the instructions below:
 
-## Python: 
+### Python: 
 Download and install the latest version of Python from the official website: https://www.python.org/downloads/
 
-## OpenCV: 
+### OpenCV: 
 Install OpenCV using the following command in your terminal or command prompt: 
 ```sh 
 pip install opencv-python 
 ```
 
-## YOLOv7: 
+### YOLOv7: 
 Clone the YOLOv7 repository from GitHub: https://github.com/WongKinYiu/yolov7.git 
 
-## Torch: 
+### Torch: 
 Install PyTorch using the following command:
 ```sh 
 pip install torch 
 ```
 
-## Numpy: 
+### Numpy: 
 Install Numpy using the following command:
 ```sh 
 pip install numpy 
 ```
 
-## Tensorflow:
+### Tensorflow:
 Install Tensorflow using the following command:
 ```sh 
 pip install tensorflow 
 ```
 
-## Scikit-learn: 
+### Scikit-learn: 
 Install Scikit-learn using the following command: 
 ```sh 
 pip install scikit-learn 
@@ -125,14 +125,15 @@ Our algorithm works as follows:
 
 The following datasets have been used in this ANPR system:
 <br />
-## For License plate detection (YOLOv7): 
+### For License plate detection (YOLOv7): 
 This dataset contains 453 files - images in JPEG format with bounding box annotations of the car license plates within the image. Annotations are provided in the PASCAL VOC format. Pascal VOC(Visual Object Classes) is a format to store annotations for localizer or Object Detection datasets and is used by different annotation editors and tools to annotate, modify and train Machine Learning models. The dataset can be found and downloaded from here https://www.kaggle.com/datasets/aslanahmedov/number-plate-detection
-You can download trained model from here: https://drive.google.com/file/d/1f7tWbDNqfWqca1gy91ItV5gkwUOpLAHx/view?usp=sharing
+You can download the trained model from here: https://drive.google.com/file/d/1f7tWbDNqfWqca1gy91ItV5gkwUOpLAHx/view?usp=sharing
 <br />
-## For Character recognition: 
+### For Character recognition: 
 The dataset has about 2000 images of digits from 0-9 and alphabets from A-Z. You can download the dataset from here: https://drive.google.com/file/d/1y8OG1GwfTd7fZMpu7rFsSVEa3wj1I98q/view?usp=sharing
+You can download the trained model from here: https://drive.google.com/file/d/14op_-psIamfE0dopkSNpL7jAc4Meu-9H/view?usp=sharing
 <br />
-## For testing the whole model: 
+### For testing the whole anpr system: 
 The dataset contains about 166 images of cars with license plates. You can find the dataset here: https://drive.google.com/file/d/1r_X_Wf4FQ8AcgOvy6o2AdBk11LJB67D_/view?usp=sharing
 <br />
 
@@ -142,7 +143,7 @@ The dataset contains about 166 images of cars with license plates. You can find 
  
  The accuracy of CNN used for character recognition is about 98%.
  
- The overall accuracy of the ANPR system proposed here is 87.75%, which is tested on test_dataset mentioned in dataset section.
+ The overall accuracy of the ANPR system proposed here is 86.75%, which is tested on test_dataset mentioned in dataset section.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
