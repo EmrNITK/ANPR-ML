@@ -5,7 +5,7 @@ import numpy as np
 from keras.layers import Flatten, Dense, Conv2D, MaxPooling2D, Input, Dropout
 from keras.models import Model, Sequential
 
-CHAR_RECOGNITION_YOLO_MODEL_PATH = "C:/Users/Amit Singh/Documents/VS Code/Python/ANPR ML/yolov7/checkpoints/checkpoints/my_checkpoint"
+CHAR_RECOGNITION_YOLO_MODEL_PATH = "D:/ANPR/ANPR-ML/checkpoints/checkpoints/my_checkpoint"
 
 
 # Match contours to license plate or character template
@@ -159,7 +159,7 @@ def load_char_recog_model():
 
     # Restore the weights
     loaded_model.load_weights(
-        f"C:/Users/Amit Singh/Documents/VS Code/Python/ANPR ML/yolov7/checkpoints/checkpoints/my_checkpoint"
+        CHAR_RECOGNITION_YOLO_MODEL_PATH
     ).expect_partial()
     return loaded_model
 
@@ -172,12 +172,12 @@ def fix_dimension(img):
         return new_img
 
 
-def show_results(char):
+def show_results(model,char):
     dic = {}
     characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     for i, c in enumerate(characters):
         dic[i] = c
-    loaded_model = load_char_recog_model()
+    loaded_model = model
     output = []
     for i, ch in enumerate(char):  #iterating over the characters
         img_ = cv2.resize(ch, (28, 28), interpolation=cv2.INTER_AREA)

@@ -37,7 +37,7 @@ def ANPR(img_path):
             img = cv2.resize(ch, (28, 28), interpolation=cv2.INTER_AREA)
             plt.subplot(3, 4, i + 1)
             plt.imshow(img, cmap='gray')
-            plt.title(f'predicted: {show_results(char)[i]}')
+            plt.title(f'predicted: {num_plate[i]}')
             plt.axis('off')
         plt.savefig("mygraph.png")
         mygraph = cv2.imread("mygraph.png")
@@ -47,5 +47,5 @@ def ANPR(img_path):
 
 
 if __name__ == '__main__':
-    img_path = f"C:/Users/Amit Singh/Documents/VS Code/ANPR-ML/Sample Images/1.jpg"
+    img_path = f"D:/ANPR/ANPR-ML/Sample Images/2.jpg"
     print(ANPR(img_path))

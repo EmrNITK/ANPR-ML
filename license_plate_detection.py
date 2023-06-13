@@ -24,7 +24,7 @@ import sys
 import numpy as np
 import os.path
 
-YOLO_MODEL_PATH = f"C:/Users/Amit Singh/Documents/VS Code/Python/ANPR ML/yolov7/best.pt"
+YOLO_MODEL_PATH = f"D:/ANPR/ANPR-ML/best.pt"
 
 
 def load_model(opt, save_img=False):
@@ -162,7 +162,7 @@ def detect(opt, model, img_path, save_img=False):
                     b_box = []
                     for cord in xyxy:
                         b_box.append(int(cord.item()))
-                    num_plates.append(b_box)
+                    num_plates.append((conf,b_box))
 
                     line = (cls, *xywh,
                             conf) if opt.save_conf else (cls,
@@ -184,83 +184,116 @@ def detect(opt, model, img_path, save_img=False):
             )
 
     print(f'Done. ({time.time() - t0:.3f}s)')
-    return num_plates
+    f_conf=0
+    f_num_plate=None
+    for (conf, num_plate) in num_plates:
+        if conf>f_conf:
+            f_conf=conf
+            f_num_plate=num_plate
+
+    return f_num_plate
+
+class Args:
+    weights=YOLO_MODEL_PATH
+    img_size=640
+    conf_thres=0.25
+    iou_thres=0.45
+    device=""
+    view_img=""
+    save_txt=""
+    save_conf=""
+    nosave=""
+    classes=0
+    agnostic_nms=""
+    augment=""
+    update=""
+    project=""
+    name="exp"
+    exist_ok=""
+    no_trace=""
+    
+def getNumberPlateRegion(model,img_path):
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('--weights',
+    #                     nargs='+',
+    #                     type=str,
+    #                     default=YOLO_MODEL_PATH,
+    #                     help='model.pt path(s)')
+    # # parser.add_argument('--source', type=str, default=img_path,
+    # #                     help='source')  # file/folder, 0 for webcam
+    # parser.add_argument('--img-size',
+    #                     type=int,
+    #                     default=640,
+    #                     help='inference size (pixels)')
+    # parser.add_argument('--conf-thres',
+    #                     type=float,
+    #                     default=0.25,
+    #                     help='object confidence threshold')
+    # parser.add_argument('--iou-thres',
+    #                     type=float,
+    #                     default=0.45,
+    #                     help='IOU threshold for NMS')
+    # parser.add_argument('--device',
+    #                     default='',
+    #                     help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    # parser.add_argument('--view-img',
+    #                     action='store_true',
+    #                     help='display results')
+    # parser.add_argument('--save-txt',
+    #                     action='store_true',
+    #                     help='save results to *.txt')
+    # parser.add_argument('--save-conf',
+    #                     action='store_true',
+    #                     help='save confidences in --save-txt labels')
+    # parser.add_argument('--nosave',
+    #                     action='store_true',
+    #                     help='do not save images/videos')
+    # parser.add_argument('--classes',
+    #                     nargs='+',
+    #                     type=int,
+    #                     help='filter by class: --class 0, or --class 0 2 3')
+    # parser.add_argument('--agnostic-nms',
+    #                     action='store_true',
+    #                     help='class-agnostic NMS')
+    # parser.add_argument('--augment',
+    #                     action='store_true',
+    #                     help='augmented inference')
+    # parser.add_argument('--update',
+    #                     action='store_true',
+    #                     help='update all models')
+    # parser.add_argument('--project',
+    #                     default='runs/detect',
+    #                     help='save results to project/name')
+    # parser.add_argument('--name',
+    #                     default='exp',
+    #                     help='save results to project/name')
+    # parser.add_argument('--exist-ok',
+    #                     action='store_true',
+    #                     help='existing project/name ok, do not increment')
+    # parser.add_argument('--no-trace',
+    #                     action='store_true',
+    #                     help='don`t trace model')
+
+    # opt = parser.parse_args(args=[])
+    opt=Args()
 
 
-def getNumberPlateRegion(img_path):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--weights',
-                        nargs='+',
-                        type=str,
-                        default=YOLO_MODEL_PATH,
-                        help='model.pt path(s)')
-    # parser.add_argument('--source', type=str, default=img_path,
-    #                     help='source')  # file/folder, 0 for webcam
-    parser.add_argument('--img-size',
-                        type=int,
-                        default=640,
-                        help='inference size (pixels)')
-    parser.add_argument('--conf-thres',
-                        type=float,
-                        default=0.25,
-                        help='object confidence threshold')
-    parser.add_argument('--iou-thres',
-                        type=float,
-                        default=0.45,
-                        help='IOU threshold for NMS')
-    parser.add_argument('--device',
-                        default='',
-                        help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
-    parser.add_argument('--view-img',
-                        action='store_true',
-                        help='display results')
-    parser.add_argument('--save-txt',
-                        action='store_true',
-                        help='save results to *.txt')
-    parser.add_argument('--save-conf',
-                        action='store_true',
-                        help='save confidences in --save-txt labels')
-    parser.add_argument('--nosave',
-                        action='store_true',
-                        help='do not save images/videos')
-    parser.add_argument('--classes',
-                        nargs='+',
-                        type=int,
-                        help='filter by class: --class 0, or --class 0 2 3')
-    parser.add_argument('--agnostic-nms',
-                        action='store_true',
-                        help='class-agnostic NMS')
-    parser.add_argument('--augment',
-                        action='store_true',
-                        help='augmented inference')
-    parser.add_argument('--update',
-                        action='store_true',
-                        help='update all models')
-    parser.add_argument('--project',
-                        default='runs/detect',
-                        help='save results to project/name')
-    parser.add_argument('--name',
-                        default='exp',
-                        help='save results to project/name')
-    parser.add_argument('--exist-ok',
-                        action='store_true',
-                        help='existing project/name ok, do not increment')
-    parser.add_argument('--no-trace',
-                        action='store_true',
-                        help='don`t trace model')
-    opt = parser.parse_args()
+    # try:
+    #     opt = parser.parse_args() #call from command line
+    # except:
+    #     opt = parser.parse_args(args=[YOLO_MODEL_PATH, 640]) #call from notebook
 
     img = cv2.imread(img_path)
     #load the model
-    yolo_model = load_model(opt)
+    yolo_model = model
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov7.pt']:
                 detect()
                 strip_optimizer(opt.weights)
         else:
-            num_plates = detect(opt, yolo_model, img_path)
-            for num_plate in num_plates:
-                region = img[num_plate[1]:num_plate[3],
-                             num_plate[0]:num_plate[2]].copy()
-                return region
+            num_plate = detect(opt, yolo_model, img_path)
+            
+            region = img[num_plate[1]:num_plate[3],
+                            num_plate[0]:num_plate[2]].copy()
+            return region
